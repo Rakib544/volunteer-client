@@ -67,7 +67,7 @@ const Admin = () => {
             <Container maxWidth="lg">
                 <Grid container spacing={3}>
 
-                    <Grid item lg="3">
+                    <Grid item lg={3}>
                         <ButtonBase>
                             <img src={logo} alt="logo" style={{ height: '70px', margin: '20px' }} />
                         </ButtonBase>
@@ -78,13 +78,13 @@ const Admin = () => {
 
                     </Grid>
 
-                    <Grid container item lg="8" direction="column">
-                        <Grid item lg="12">
+                    <Grid container item lg={8} direction="column">
+                        <Grid item lg={12}>
                             <Typography variant="h4" className={classes.typography}>
                                 Add Event
                             </Typography>
                         </Grid>
-                        <Grid item lg="12">
+                        <Grid item lg={12}>
                             <Paper>
                                 <form className={classes.formStyle} onSubmit={handleSubmit(onSubmit)}>
                                     <TextField name="eventName" label="Event Title" className={classes.input} inputRef={register} />
