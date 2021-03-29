@@ -38,7 +38,7 @@ const Login = () => {
     }
     return (
         <div className={classes.formStyle}>
-            <Grid lg="5" justify="center" className={classes.grid}>
+            <Grid lg="5" md="8" sm="12" xs="12" justify="center" className={classes.grid}>
                 <Paper className={classes.paper}>
                     <Typography variant="h6">
                         {showLogin ? 'Login Here' : 'Registration'}
