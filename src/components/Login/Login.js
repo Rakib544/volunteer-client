@@ -1,6 +1,7 @@
 import { Button, Grid, makeStyles, Paper, TextField, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { createUserWithEmailAndPassword, initializedApplication, signInWithEmailAndPassword } from './LoginManager';
 
 const useStyles = makeStyles((theme) => ({
     input: {
@@ -8,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
         margin: '10px'
     },
     grid: {
-        padding: theme.spacing(4)
+        padding: theme.spacing(2)
     },
     paper: {
         padding: theme.spacing(3)
@@ -32,10 +33,24 @@ const Login = () => {
     const { register, handleSubmit, errors } = useForm();
 
     const [showLogin, setShowLogin] = useState(true)
+    const [userInfo, setUserInfo] = useState({name: '', email: '', success: false, error: ''})
+    initializedApplication();
 
     const onSubmit = data => {
-        console.log(data)
+        if (!showLogin) {
+            const userInfo = createUserWithEmailAndPassword(data.name, data.email, data.password)
+            console.log(userInfo)
+        }
+        else {
+            const userInfo = signInWithEmailAndPassword(data.email, data.password)
+            console.log(userInfo)
+            console.log(userInfo.error)
+        }
+
+
     }
+
+    // console.log(userInfo)
     return (
         <div className={classes.formStyle}>
             <Grid lg="5" md="8" sm="12" xs="12" justify="center" className={classes.grid}>
@@ -72,8 +87,8 @@ const Login = () => {
                             className={classes.input}
                             inputRef={register({
                                 required: 'password is required'
-                            })} 
-                            error = {Boolean(errors.password)}
+                            })}
+                            error={Boolean(errors.password)}
                             helperText={errors.password?.message}
                             type="password"
                         />
@@ -101,6 +116,9 @@ const Login = () => {
                         <strong className={classes.span} onClick={() => setShowLogin(!showLogin)}>
                             {showLogin ? 'Registration Here' : 'Login Here'}
                         </strong>
+                    </Typography>
+                    <Typography variant="subtitle1" color="primary">
+                        {userInfo.success && showLogin ? 'User login Successfully' : userInfo.error}
                     </Typography>
                 </Paper>
             </Grid>
