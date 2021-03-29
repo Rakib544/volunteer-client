@@ -3,7 +3,9 @@ import { PhotoCamera } from '@material-ui/icons';
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
-import logo from '../../images/Group 1329.png'
+import logo from '../../images/Group 1329.png';
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -19,11 +21,20 @@ const useStyles = makeStyles((theme) => ({
         margin: '10px',
     },
     formStyle: {
-        padding: '20px'
+        padding: '20px',
+        margin: '30px'
     },
     submitBtnStyle: {
         marginTop: '10px',
+        display: 'block',
         marginLeft: 'auto'
+    },
+    paper: {
+        padding: theme.spacing(3)
+    },
+    typography: {
+        padding: '10px 0',
+        color: 'deepSkyBlue'
     }
 }));
 
@@ -38,41 +49,45 @@ const Admin = () => {
         imageData.append('image', e.target.files[0]);
 
         axios.post('https://api.imgbb.com/1/upload', imageData)
-        .then(res => setImageURL(res.data.data.display_url))
-        .catch(err => console.log(err))
+            .then(res => setImageURL(res.data.data.display_url))
+            .catch(err => console.log(err))
     }
-    const onSubmit = async data => {
-        const eventData = {imageURL, ...data}
-        await fetch('http://localhost:8080/addEvent', {
+    const onSubmit = data => {
+        const img = imageURL && imageURL
+        let eventData = { img, ...data }
+        fetch('http://localhost:8080/addEvent', {
             method: "POST",
-            headers: {"Content-type": 'application/json'},
+            headers: { "Content-type": 'application/json' },
             body: JSON.stringify(eventData)
         })
     };
-    
+
     return (
         <div>
             <Container maxWidth="lg">
-                <Grid container>
+                <Grid container spacing={3}>
+
                     <Grid item lg="3">
                         <ButtonBase>
-                            <img src={logo} alt="logo" style={{ height: '70px' }} />
+                            <img src={logo} alt="logo" style={{ height: '70px', margin: '20px' }} />
                         </ButtonBase>
                         <Typography variant="subtitle1">
-                            Volunteer register list
+                            <PeopleAltIcon style={{ color: 'deepSkyBlue' }} /> Volunteer register list
                         </Typography>
-                        <Button>add new event</Button>
+                        <Button style={{ color: 'deepskyblue', marginTop: '20px' }} startIcon={<AddIcon />} variant="outlined">add new event</Button>
+
                     </Grid>
+
                     <Grid container item lg="8" direction="column">
                         <Grid item lg="12">
-                            <Typography variant="h5">
+                            <Typography variant="h4" className={classes.typography}>
                                 Add Event
                             </Typography>
                         </Grid>
                         <Grid item lg="12">
                             <Paper>
                                 <form className={classes.formStyle} onSubmit={handleSubmit(onSubmit)}>
-                                    <TextField name="eventName"  label="Event Title" className={classes.input} inputRef={register}/>
+                                    <TextField name="eventName" label="Event Title" className={classes.input} inputRef={register} />
                                     <TextField name="eventDescription" label="Event Description" className={classes.input} inputRef={register} />
                                     <div className={classes.root}>
                                         <input
@@ -86,12 +101,11 @@ const Admin = () => {
                                         />
                                         <label htmlFor="contained-button-file">
                                             <Button size="small" variant="contained" color="primary" component="span" startIcon={<PhotoCamera />}>
-                                                Upload
+                                                Upload Image
                                         </Button>
                                         </label>
                                     </div>
                                     <Button className={classes.submitBtnStyle} type="submit" variant="contained" color="primary">Submit</Button>
-
                                 </form>
                             </Paper>
                         </Grid>
