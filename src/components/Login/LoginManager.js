@@ -12,38 +12,32 @@ export const createUserWithEmailAndPassword = (name, email, password) => {
     return firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(res => {
             updateUserInfo(name);
-            // const userInfo = {}
-            // userInfo.email = res.user.email;
-            // userInfo.name = res.user.displayName;
-            // userInfo.success = true;
-            // return userInfo;
-            return res
+            const newUser = res.user
+            newUser.success = true;
+            newUser.error = '';
+            return newUser;
         })
         .catch(err => {
-            // const user = {};
-            // user.success = false;
-            // user.error = err.message;
-            // return user;
-            return err.message
+            const newUser = {}
+            newUser.success = false;
+            newUser.error = err.message;
+            return newUser
         })
 }
 
 export const signInWithEmailAndPassword = (email, password) => {
     return firebase.auth().signInWithEmailAndPassword(email, password)
         .then(res => {
-            // const userInfo = {}
-            // userInfo.email = res.user.email;
-            // userInfo.name = res.user.displayName;
-            // userInfo.success = true;
-            // return userInfo;
-            return res;
+            const newUser = res.user
+            newUser.success = true;
+            newUser.error = '';
+            return newUser;
         })
         .catch(err => {
-            // const userInfo = {};
-            // userInfo.success = false;
-            // userInfo.error = err.message;
-            // return userInfo
-            return err
+            const newUser = {}
+            newUser.success = false;
+            newUser.error = err.message;
+            return newUser
         })
 }
 
@@ -64,6 +58,16 @@ export const signInWithGoogle = () => {
     const googleProvider = new firebase.auth.GoogleAuthProvider();
 
     firebase.auth().signInWithPopup(googleProvider)
-        .then(res => console.log(res.user))
-        .catch(err => console.log(err))
+        .then(res => {
+            const newUser = res.user
+            newUser.success = true;
+            newUser.error = '';
+            return newUser;
+        })
+        .catch(err => {
+            const newUser = {}
+            newUser.success = false;
+            newUser.error = err.message;
+            return newUser
+        })
 }

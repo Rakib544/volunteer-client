@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { useHistory } from 'react-router';
+import { Hidden } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -53,12 +54,14 @@ export const Menubar = () => {
                     <Typography variant="h6" className={classes.title}>
                         News
                     </Typography>
-                    <Button color="inherit" onClick={goHomePage}>Home</Button>
-                    <Button color="inherit" onClick={goDestinationPage}>Destination</Button>
-                    <Button color="inherit" onClick={goEventsPage}>Events</Button>
-                    <Button color="inherit" onClick={goBlogPage}>Blog</Button>
-                    <Button variant="outlined" color="secondary" onClick={goLoginPage}>Login</Button>
-                    <Button color="secondary" variant="contained" onClick={goAdminPage}>Admin</Button>
+                    <Hidden lgDown={false}>
+                        <Button color="inherit" onClick={goHomePage}>Home</Button>
+                        <Button color="inherit" onClick={goDestinationPage}>Destination</Button>
+                        <Button color="inherit" onClick={goEventsPage}>Events</Button>
+                        <Button color="inherit" onClick={goBlogPage}>Blog</Button>
+                        <Button variant="outlined" color="secondary" onClick={goLoginPage}>Login</Button>
+                        <Button color="secondary" variant="contained" onClick={goAdminPage}>Admin</Button>
+                    </Hidden>
                 </Toolbar>
             </AppBar>
         </div>

@@ -33,25 +33,36 @@ const Login = () => {
     const { register, handleSubmit, errors } = useForm();
 
     const [showLogin, setShowLogin] = useState(true)
+    const [logUserInfo, setLogUserInfo] = useState({name: '', email: '', success: false, error: ''})
+    const [regUserInfo, setRegUserInfo] = useState({name: '', email: '', success: false, error: ''})
     const [userInfo, setUserInfo] = useState({name: '', email: '', success: false, error: ''})
     initializedApplication();
 
     const onSubmit = data => {
         if (!showLogin) {
-            const userInfo = createUserWithEmailAndPassword(data.name, data.email, data.password)
-            console.log(userInfo)
-            setUserInfo(userInfo)
+            createUserWithEmailAndPassword(data.name, data.email, data.password)
+            .then(result => {
+                setRegUserInfo(result)
+                setUserInfo(result)
+            })
         }
         else {
-            const userInfo = signInWithEmailAndPassword(data.email, data.password)
-            // console.log(userInfo)
-            // console.log(userInfo.error)
+            signInWithEmailAndPassword(data.email, data.password)
+            .then(result => {
+                setLogUserInfo(result)
+                setUserInfo(result)
+            })
+            
         }
 
 
     }
 
-    // console.log(userInfo)
+    const googleSignIn = () => {
+        signInWithGoogle()
+        .then(res => setUserInfo(res))
+    }
+
     return (
         <div className={classes.formStyle}>
             <Grid container item lg={5} md={8} sm={12} xs={12} justify="center" className={classes.grid}>
@@ -109,7 +120,7 @@ const Login = () => {
                             {showLogin ? ' Login' : 'Registration'}
                         </Button>
                     </form>
-                    <Button variant="contained" color="primary" className={classes.googleButton} onClick={() => signInWithGoogle()}>
+                    <Button variant="contained" color="primary" className={classes.googleButton} onClick={googleSignIn}>
                         Continue WIth Google
                     </Button>
                     <Typography variant="subtitle1" align="center">
@@ -118,8 +129,9 @@ const Login = () => {
                             {showLogin ? 'Registration Here' : 'Login Here'}
                         </strong>
                     </Typography>
-                    <Typography variant="subtitle1" color="primary">
-                        {userInfo.success && showLogin ? 'User login Successfully' : userInfo.error}
+                    <Typography variant="subtitle1" color="primary" align='center'>
+                        {logUserInfo.success && logUserInfo.success && showLogin ? 'User login Successfully' : logUserInfo.error}
+                        {regUserInfo.success && regUserInfo.success && !showLogin ? 'User created Successfully' : regUserInfo.error}
                     </Typography>
                 </Paper>
             </Grid>
