@@ -33,34 +33,33 @@ const Login = () => {
     const { register, handleSubmit, errors } = useForm();
 
     const [showLogin, setShowLogin] = useState(true)
-    const [logUserInfo, setLogUserInfo] = useState({name: '', email: '', success: false, error: ''})
-    const [regUserInfo, setRegUserInfo] = useState({name: '', email: '', success: false, error: ''})
-    const [userInfo, setUserInfo] = useState({name: '', email: '', success: false, error: ''})
+    const [logUserInfo, setLogUserInfo] = useState({ name: '', email: '', success: false, error: '' })
+    const [regUserInfo, setRegUserInfo] = useState({ name: '', email: '', success: false, error: '' })
+    const [userInfo, setUserInfo] = useState({ name: '', email: '', success: false, error: '' })
+
     initializedApplication();
 
     const onSubmit = data => {
         if (!showLogin) {
             createUserWithEmailAndPassword(data.name, data.email, data.password)
-            .then(result => {
-                setRegUserInfo(result)
-                setUserInfo(result)
-            })
+                .then(result => {
+                    setRegUserInfo(result)
+                })
         }
         else {
             signInWithEmailAndPassword(data.email, data.password)
-            .then(result => {
-                setLogUserInfo(result)
-                setUserInfo(result)
-            })
-            
-        }
+                .then(result => {
+                    setLogUserInfo(result)
+                    setUserInfo(result)
+                })
 
+        }
 
     }
 
     const googleSignIn = () => {
         signInWithGoogle()
-        .then(res => setUserInfo(res))
+            .then(res => setUserInfo(res))
     }
 
     return (

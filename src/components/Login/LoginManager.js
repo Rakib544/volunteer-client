@@ -12,6 +12,16 @@ export const createUserWithEmailAndPassword = (name, email, password) => {
     return firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(res => {
             updateUserInfo(name);
+            const registeredUser = {
+                name: name,
+                email: res.user.email,
+                registrationDate: (new Date().toDateString())
+            }
+            fetch('http://localhost:8080/addRegisteredUser', {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(registeredUser)
+            })
             const newUser = res.user
             newUser.success = true;
             newUser.error = '';

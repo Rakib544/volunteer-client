@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import logo from '../../images/Group 1329.png';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import AddIcon from '@material-ui/icons/Add';
+import RegisteredUserList from '../RegisteredUserList/RegisteredUserList';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -112,6 +113,7 @@ const Admin = () => {
                     </Grid>
                 </Grid>
             </Container>
+            <RegisteredUserList />
         </div>
     );
 };
