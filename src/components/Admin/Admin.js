@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 const Admin = () => {
     const classes = useStyles()
     const [imageURL, setImageURL] = useState(null)
+    const [showRegisteredList, setShowRegisteredList] = useState(true)
 
     const { register, handleSubmit } = useForm();
     const handleImageUpload = e => {
@@ -72,10 +73,10 @@ const Admin = () => {
                         <ButtonBase>
                             <img src={logo} alt="logo" style={{ height: '70px', margin: '20px' }} />
                         </ButtonBase>
-                        <Typography variant="subtitle1">
+                        <Typography variant="subtitle1" onClick={() => setShowRegisteredList(true)}>
                             <PeopleAltIcon style={{ color: 'deepSkyBlue' }} /> Volunteer register list
                         </Typography>
-                        <Button style={{ color: 'deepskyblue', marginTop: '20px' }} startIcon={<AddIcon />} variant="outlined">add new event</Button>
+                        <Button style={{ color: 'deepskyblue', marginTop: '20px' }} onClick={() => setShowRegisteredList(false)} startIcon={<AddIcon />} variant="outlined">add new event</Button>
 
                     </Grid>
 
@@ -86,34 +87,42 @@ const Admin = () => {
                             </Typography>
                         </Grid>
                         <Grid item lg={12}>
-                            <Paper>
-                                <form className={classes.formStyle} onSubmit={handleSubmit(onSubmit)}>
-                                    <TextField name="eventName" label="Event Title" className={classes.input} inputRef={register} />
-                                    <TextField name="eventDescription" label="Event Description" className={classes.input} inputRef={register} />
-                                    <div className={classes.root}>
-                                        <input
-                                            accept="image/*"
-                                            className={classes.fileInput}
-                                            id="contained-button-file"
-                                            multiple
-                                            type="file"
-                                            onChange={handleImageUpload}
-                                            name="image"
-                                        />
-                                        <label htmlFor="contained-button-file">
-                                            <Button size="small" variant="contained" color="primary" component="span" startIcon={<PhotoCamera />}>
-                                                Upload Image
+                            {
+                                showRegisteredList ? (
+                                    <RegisteredUserList />
+                                )
+                                    :
+
+                                    <Paper>
+                                        <form className={classes.formStyle} onSubmit={handleSubmit(onSubmit)}>
+                                            <TextField name="eventName" label="Event Title" className={classes.input} inputRef={register} />
+                                            <TextField name="eventDescription" label="Event Description" className={classes.input} inputRef={register} />
+                                            <div className={classes.root}>
+                                                <input
+                                                    accept="image/*"
+                                                    className={classes.fileInput}
+                                                    id="contained-button-file"
+                                                    multiple
+                                                    type="file"
+                                                    onChange={handleImageUpload}
+                                                    name="image"
+                                                />
+                                                <label htmlFor="contained-button-file">
+                                                    <Button size="small" variant="contained" color="primary" component="span" startIcon={<PhotoCamera />}>
+                                                        Upload Image
                                         </Button>
-                                        </label>
-                                    </div>
-                                    <Button className={classes.submitBtnStyle} type="submit" variant="contained" color="primary">Submit</Button>
-                                </form>
-                            </Paper>
+                                                </label>
+                                            </div>
+                                            <Button className={classes.submitBtnStyle} type="submit" variant="contained" color="primary">Submit</Button>
+                                        </form>
+                                    </Paper>
+                            }
+
                         </Grid>
                     </Grid>
                 </Grid>
             </Container>
-            <RegisteredUserList />
+
         </div>
     );
 };
